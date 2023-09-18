@@ -43,13 +43,14 @@ def main():
         #Cherche si calendrier scolaire existe déja
         calendar_str = str(calendar_dict).lower()
         print(calendar_str)
-        if calendar_str.find("birthdays") != -1:
+        if calendar_str.find("school") != -1:
             for items in calendar_dict["items"]:
                 stringnotcasesensitive = str(items["summary"]).lower()
                 index = stringnotcasesensitive.find("school")
                 if index != -1:
                     calendarid = items["id"]
                     print(calendarid)
+        calendarid = "ba0383f394c91aafe7b4fa0ce4334c8f63185c126c4e4a6002613051116c98c1@group.calendar.google.com"
         # else:
         #     print("No calendar for school found! Creating one...")
         #     calendar = {
@@ -153,6 +154,11 @@ def main():
                                 ],
                             },
                         }
+            # eventcreation = service.events().insert(
+            #     calendarId=calendarid,
+            #     body=event
+            # ).execute()
+            # print(eventcreation)
             batch.add(service.events().insert(calendarId=calendarid, body=event))
         batch.execute()
     except HttpError as error:
