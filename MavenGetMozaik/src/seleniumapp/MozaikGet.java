@@ -26,10 +26,11 @@ public class MozaikGet {
     public static void main(String[] args) {
         ChromeDriver driver = new ChromeDriver();
         driver.get("https://mozaikportail.ca/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1000));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@class=\"btnConnexion btn\"]")));
         driver.findElement(By.xpath("//button[@class=\"btnConnexion btn\"]")).click();
         try{
             TimeUnit.SECONDS.sleep(10);
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1000));
             wait.until(ExpectedConditions.urlToBe("https://mozaikportail.ca/"));
             DevTools devTools = driver.getDevTools();
             devTools.createSession();

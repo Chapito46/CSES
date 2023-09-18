@@ -9,6 +9,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import re
+from googleapiclient.http import BatchHttpRequest
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 def main():
     creds = None
@@ -35,27 +36,28 @@ def main():
             token.write(creds.to_json())
 
     try:
+        calendarid = ""
         service = build('calendar', 'v3', credentials=creds)
+        batch = service.new_batch_http_request()
         calendar_dict = service.calendarList().list().execute()
-        calendar_string = str(calendar_dict).lower()
-
-    #Cherche si calendrier scolaire existe déja
-        if ("école" or "ecole" or "school") in calendar_string:
+        #Cherche si calendrier scolaire existe déja
+        calendar_str = str(calendar_dict).lower()
+        print(calendar_str)
+        if calendar_str.find("birthdays") != -1:
             for items in calendar_dict["items"]:
                 stringnotcasesensitive = str(items["summary"]).lower()
-                if ("école" or "ecole" or "school") in stringnotcasesensitive:
+                index = stringnotcasesensitive.find("school")
+                if index != -1:
                     calendarid = items["id"]
                     print(calendarid)
-
-
-        else:
-            print("No calendar for school found! Creating one...")
-            calendar = {
-                'summary': 'School',
-                'timeZone': 'America/New_York'
-            }
-            created_calendar = service.calendars().insert(body=calendar).execute()
-            calendarid = created_calendar['id']
+        # else:
+        #     print("No calendar for school found! Creating one...")
+        #     calendar = {
+        #         'summary': 'School',
+        #         'timeZone': 'America/New_York'
+        #     }
+        #     created_calendar = service.calendars().insert(body=calendar).execute()
+        #     calendarid = created_calendar['id']
 
 
 
@@ -88,43 +90,32 @@ def main():
 
         datedebut = data['anneeScolaire']['dateDebut']
         datefin = data['anneeScolaire']['dateFin']
-        start_date = datetime.datetime.strptime(datedebut, "%Y-%m-%d")
-        one_day = datetime.timedelta(days=1)
-        while start_date.weekday() > 4:
-            start_date = start_date - one_day
-        end_date = datetime.datetime.strptime(datefin, "%Y-%m-%d")
-        six_days = datetime.timedelta(days=6)
-        while start_date <= end_date:
-            format_string = '%Y-%m-%d'
-            datesum = start_date + six_days
-            date1 = start_date.strftime(format_string)
-            date2 = datesum.strftime(format_string)
-
-            url = 'https://apiaffairesmp.mozaikportail.ca/api/organisationScolaire/donneesAnnuelles/' + numero_ecole + '/' + numero_eleve + '/activitescalendrier?dateDebut=' + date1 + '&dateFin=' + date2
-            responsehoraire = requests.get(
+        start_date = datetime.datetime.strptime(datedebut, "%Y-%m-%d").strftime('%Y-%m-%d')
+        end_date = datetime.datetime.strptime(datefin, "%Y-%m-%d").strftime('%Y-%m-%d')
+        url = 'https://apiaffairesmp.mozaikportail.ca/api/organisationScolaire/donneesAnnuelles/' + numero_ecole + '/' + numero_eleve + '/activitescalendrier?dateDebut=' + start_date + '&dateFin=' + end_date
+        responsehoraire = requests.get(
                 url,
                 headers=headers,
-            )
-            donneeshoraire = json.dumps(responsehoraire.json())
-            print(donneeshoraire)
-            start_date = start_date + six_days
-            # TODO - Ajouter Github Control Version en private
-            # TODO - BUG Quelques evenement en doublon
-            # TODO - Site Web
-            # TODO - Transformer code MozaikGet.java en javascript pour site web
-            # TODO - Ajouter Parametres
-            # TODO - Ajouter couleur calendrier
-            #Créer événement
-            data = donneeshoraire
-            res = json.loads(data)
-            # donneeshoraire et res = json de horaire de mozaik
-            print(res)
-            # For each events in donneeshoraire, loop to find if contain event at the same time
-            # loop a travers horaire de mozaik
-            for i in range(len(res)):
+        )
 
-                    if res[i]['locaux'] :
-                        event = {
+        donneeshoraire = json.dumps(responsehoraire.json())
+        # print(donneeshoraire)
+        # TODO - Optimiser performance en envoyant en batch, avec liste ou dict
+        # TODO - Site Web
+        # TODO - Transformer code MozaikGet.java en javascript pour site web
+        # TODO - New Relic
+        # TODO - Ajouter Parametres
+        # TODO - Ajouter couleur calendrier
+        #Créer événement
+        data = donneeshoraire
+        res = json.loads(data)
+        # donneeshoraire et res = json de horaire de mozaik
+        # For each events in donneeshoraire, loop to find if contain event at the same time
+        # loop a travers horaire de mozaik
+        for i in range(len(res)):
+            # print(res[i]['dateDebut'])
+            if res[i]['locaux']:
+                event = {
                             'summary': res[i]['description'],
                             'location': res[i]['locaux'],
                             'description': res[i]['intervenants'][0]['prenom'] + ' ' + res[i]['intervenants'][0]['nom'],
@@ -143,8 +134,8 @@ def main():
                                 ],
                             },
                         }
-                    else:
-                        event = {
+            else:
+                event = {
                             'summary': res[i]['description'],
                             'description': res[i]['intervenants'][0]['prenom'] + ' ' + res[i]['intervenants'][0]['nom'],
                             'start': {
@@ -162,16 +153,8 @@ def main():
                                 ],
                             },
                         }
-                    print(event)
-                    eventcreation = service.events().insert(
-                        calendarId=calendarid,
-                        body=event
-                    ).execute()
-                    print(eventcreation)
-
-
-
-
+            batch.add(service.events().insert(calendarId=calendarid, body=event))
+        batch.execute()
     except HttpError as error:
         print('An error occurred: %s' % error)
 
