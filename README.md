@@ -20,3 +20,7 @@ FAQ:
 
 3- Comment je me connecte sur mon compte Google, j'ai de la difficulté avec le message d'avertissement de Google!
   Veuillez suivre les étapes indiqués ci-dessous:
+  ![google](https://github.com/Chapito46/MozaikCalendar/assets/65178734/02e6bbaa-9f65-43ed-beb6-50de8c7b0512)
+  ![google2](https://github.com/Chapito46/MozaikCalendar/assets/65178734/f4e2d945-7866-4f33-bad9-c17147ae4304)
+  ![google3](https://github.com/Chapito46/MozaikCalendar/assets/65178734/2594a682-179a-4f8d-900e-abb35154dd07)
+
