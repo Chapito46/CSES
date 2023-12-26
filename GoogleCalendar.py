@@ -2,6 +2,7 @@ from __future__ import print_function
 import datetime
 import os.path
 import json
+import os
 import requests
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -9,8 +10,10 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import re
+from tqdm import tqdm
 from googleapiclient.http import BatchHttpRequest
 SCOPES = ['https://www.googleapis.com/auth/calendar']
+
 def main():
     creds = None
     file = open("authToken.txt", "r")
@@ -31,6 +34,7 @@ def main():
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
+            os.system('cls')
         # Save the credentials for the next run
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
@@ -40,34 +44,31 @@ def main():
         service = build('calendar', 'v3', credentials=creds)
         batch = service.new_batch_http_request()
         calendar_dict = service.calendarList().list().execute()
-        #Cherche si calendrier scolaire existe déja
-        calendar_str = str(calendar_dict).lower()
-        print(calendar_str)
-        if calendar_str.find("school") != -1:
-            for items in calendar_dict["items"]:
-                stringnotcasesensitive = str(items["summary"]).lower()
-                index = stringnotcasesensitive.find("school")
-                if index != -1:
-                    calendarid = items["id"]
-                    print(calendarid)
-        calendarid = "ba0383f394c91aafe7b4fa0ce4334c8f63185c126c4e4a6002613051116c98c1@group.calendar.google.com"
-        # else:
-        #     print("No calendar for school found! Creating one...")
-        #     calendar = {
-        #         'summary': 'School',
-        #         'timeZone': 'America/New_York'
-        #     }
-        #     created_calendar = service.calendars().insert(body=calendar).execute()
-        #     calendarid = created_calendar['id']
-
-
+        print("Bienvenue, maintenant vous devrez choisir dans quelle calendrier vous voulez importer votre calendrier Mozaik ou vous pouvez en créer un nouveau. Pour ce faire, veuillez entrer le chiffre à la gauche du calendrier sélectionné ou de l'option de la création d'un nouveau calendrier")
+        print("Voici vos calendriers dans Google Calendar:")
+        i = 1
+        for items in calendar_dict["items"]:
+            print(str(i) + ":" + items["summary"])
+            i = i+1
+        print(str(i) + ":Créer un nouveau calendrier")
+        choix = int(input("Veuillez choisir votre option : ")) - 1
+        if choix == i-1:
+            nom_nouveau_calendrier = input("Comment voulez-vous nommer votre nouveau calendrier? : ")
+            print("Calendrier en création...")
+            calendar = {
+                    'summary': nom_nouveau_calendrier,
+                    'timeZone': 'America/New_York'
+                }
+            created_calendar = service.calendars().insert(body=calendar).execute()
+            calendarid = created_calendar['id']
+        else:
+            calendarid = calendar_dict["items"][choix]['id']
 
         url = 'https://apiaffairesmp.mozaikportail.ca/api/organisationScolaire/calendrierScolaire/784025/1?dateDebut=2023-09-10&dateFin=2023-09-16'
         response = requests.get(
                   url,
                   headers=headers,
              )
-        print(response.json())
         file = open("authToken.txt", "r")
         authToken = file.read()
         file = open("calendrier_scolaire_url.txt", "r")
@@ -76,13 +77,11 @@ def main():
         activite_calendrier_url = file.read()
         try:
             m =re.search('donneesAnnuelles/(.+?)activitescalendrier?', activite_calendrier_url).group(1)
-            print(m)
             codes = m.split("/")
             numero_ecole = codes[0]
             numero_eleve = codes[1]
         except AttributeError:
-            # AAA, ZZZ not found in the original string
-            found = 'dsadwdas' # apply your error handling
+            found = 'dsadwdas'
         response = requests.get(
             calendrier_scolaire_url,
             headers=headers,
@@ -100,21 +99,13 @@ def main():
         )
 
         donneeshoraire = json.dumps(responsehoraire.json())
-        # print(donneeshoraire)
-        # TODO - Optimiser performance en envoyant en batch, avec liste ou dict
-        # TODO - Site Web
-        # TODO - Transformer code MozaikGet.java en javascript pour site web
-        # TODO - New Relic
-        # TODO - Ajouter Parametres
-        # TODO - Ajouter couleur calendrier
-        #Créer événement
+        # Créer événement
         data = donneeshoraire
         res = json.loads(data)
         # donneeshoraire et res = json de horaire de mozaik
         # For each events in donneeshoraire, loop to find if contain event at the same time
         # loop a travers horaire de mozaik
-        for i in range(len(res)):
-            # print(res[i]['dateDebut'])
+        for i in tqdm(range(len(res)), colour="white"):
             if res[i]['locaux']:
                 event = {
                             'summary': res[i]['description'],
@@ -154,13 +145,13 @@ def main():
                                 ],
                             },
                         }
-            # eventcreation = service.events().insert(
-            #     calendarId=calendarid,
-            #     body=event
-            # ).execute()
-            # print(eventcreation)
+
             batch.add(service.events().insert(calendarId=calendarid, body=event))
+        print("Insertion du calendrier...")
+        print("Veuillez patienter, ceci peut prendre quelques minutes")
+        print("L'application fermera lorsque l'importation aura fini!")
         batch.execute()
+
     except HttpError as error:
         print('An error occurred: %s' % error)
 
