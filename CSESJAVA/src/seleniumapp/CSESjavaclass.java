@@ -18,7 +18,7 @@ import java.io.IOException;  // Import the IOException class to handle errors
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MozaikGet {
+public class CSESjavaclass {
     public static void main(String[] args) {
         Logger logger = Logger.getLogger("");
         logger.setLevel(Level.SEVERE);

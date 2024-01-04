@@ -13,11 +13,9 @@ import re
 from tqdm import tqdm
 from googleapiclient.http import BatchHttpRequest
 SCOPES = ['https://www.googleapis.com/auth/calendar']
-
 def main():
     creds = None
-    file = open("authToken.txt", "r")
-    authToken = file.read()
+    authToken = 'YOUR GOOGLE API SECRETS HERE'
     headers = {
         'Authorization': 'Bearer ' + authToken,
     }
