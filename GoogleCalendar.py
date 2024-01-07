@@ -12,10 +12,11 @@ from googleapiclient.errors import HttpError
 import re
 from tqdm import tqdm
 from googleapiclient.http import BatchHttpRequest
-SCOPES = ['https://www.googleapis.com/auth/calendar']
+SCOPES = ['https://www.googleapis.com/auth/calendar/']
 def main():
     creds = None
-    authToken = 'YOUR GOOGLE API SECRETS HERE'
+    file = open("authToken.txt", "r")
+    authToken = file.read()
     headers = {
         'Authorization': 'Bearer ' + authToken,
     }
@@ -62,11 +63,6 @@ def main():
         else:
             calendarid = calendar_dict["items"][choix]['id']
 
-        url = 'https://apiaffairesmp.mozaikportail.ca/api/organisationScolaire/calendrierScolaire/784025/1?dateDebut=2023-09-10&dateFin=2023-09-16'
-        response = requests.get(
-                  url,
-                  headers=headers,
-             )
         file = open("authToken.txt", "r")
         authToken = file.read()
         file = open("calendrier_scolaire_url.txt", "r")

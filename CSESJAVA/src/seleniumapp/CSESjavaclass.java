@@ -42,7 +42,6 @@ public class CSESjavaclass {
                                 FileWriter activite_calendrier_url = new FileWriter("activite_calendrier_url.txt");
                                 activite_calendrier_url.write(url);
                                 activite_calendrier_url.close();
-//                                System.out.println("Successfully wrote to activite_calendrier_url file.");
                             } catch (IOException e) {
                                 System.out.println("An error occurred.");
                                 e.printStackTrace();
@@ -54,7 +53,6 @@ public class CSESjavaclass {
                                 FileWriter calendrier_scolaire_url = new FileWriter("calendrier_scolaire_url.txt");
                                 calendrier_scolaire_url.write(url);
                                 calendrier_scolaire_url.close();
-//                                System.out.println("Successfully wrote to calendrier_scolaire_url file.");
                             } catch (IOException e) {
                                 System.out.println("An error occurred.");
                                 e.printStackTrace();
@@ -71,18 +69,6 @@ public class CSESjavaclass {
                                             FileWriter authToken = new FileWriter("authToken.txt");
                                             authToken.write(bearertoken);
                                             authToken.close();
-//                                            System.out.println("Successfully wrote to the file.");
-
-//                                            String[] cmd = new String["cmd.exe", "/C", "dir *.*"]
-//                                            Runtime rt = Runtime.getRuntime();
-//                                            System.out.println("Execing " + cmd[0] + " " + cmd[1]
-//                                                    + " " + cmd[2]);
-//                                            Runtime rt = Runtime.getRuntime();
-//                                            try{
-//                                                rt.exec("GoogleCalendar.exe");
-//                                            }catch (Exception e){
-//                                                System.out.println(e);
-//                                            }
                                             driver.close();
                                             ProcessBuilder builder = new ProcessBuilder(
                                                     "cmd.exe", "/c", "start GoogleCalendar.exe");
@@ -96,11 +82,6 @@ public class CSESjavaclass {
                                                 System.out.println(line);
                                             }
                                             System.exit(0);
-//                                            ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/K", "GoogleCalendar.exe");
-//                                            pb.start();
-//                                            String output = IOUtils.toString(pb.start().getInputStream(), StandardCharsets.UTF_8);
-//                                            System.out.println(output);
-
                                         } catch (IOException e) {
                                             System.out.println("An error occurred.");
                                             e.printStackTrace();
