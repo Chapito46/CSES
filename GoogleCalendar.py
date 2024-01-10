@@ -12,7 +12,7 @@ from googleapiclient.errors import HttpError
 import re
 from tqdm import tqdm
 from googleapiclient.http import BatchHttpRequest
-SCOPES = ['https://www.googleapis.com/auth/calendar/']
+SCOPES = ['https://www.googleapis.com/auth/calendar']
 def main():
     creds = None
     file = open("authToken.txt", "r")
@@ -96,51 +96,98 @@ def main():
         # Créer événement
         data = donneeshoraire
         res = json.loads(data)
+        f = open("donnees.txt", "x")
+        f.write(data)
+        f.close()
         # donneeshoraire et res = json de horaire de mozaik
         # For each events in donneeshoraire, loop to find if contain event at the same time
         # loop a travers horaire de mozaik
         for i in tqdm(range(len(res)), colour="white"):
-            if res[i]['locaux']:
-                event = {
-                            'summary': res[i]['description'],
-                            'location': res[i]['locaux'],
-                            'description': res[i]['intervenants'][0]['prenom'] + ' ' + res[i]['intervenants'][0]['nom'],
-                            'start': {
-                                'dateTime': res[i]['dateDebut'] + 'T' + res[i]['heureDebut'] + ':00',
-                                'timeZone': 'America/New_York',
-                            },
-                            'end': {
-                                'dateTime': res[i]['dateFin'] + 'T' + res[i]['heureFin'] + ':00',
-                                'timeZone': 'America/New_York',
-                            },
-                            'reminders': {
-                                'useDefault': False,
-                                'overrides': [
-                                    {'method': 'popup', 'minutes': 10},
-                                ],
-                            },
-                        }
-            else:
-                event = {
-                            'summary': res[i]['description'],
-                            'description': res[i]['intervenants'][0]['prenom'] + ' ' + res[i]['intervenants'][0]['nom'],
-                            'start': {
-                                'dateTime': res[i]['dateDebut'] + 'T' + res[i]['heureDebut'] + ':00',
-                                'timeZone': 'America/New_York',
-                            },
-                            'end': {
-                                'dateTime': res[i]['dateFin'] + 'T' + res[i]['heureFin'] + ':00',
-                                'timeZone': 'America/New_York',
-                            },
-                            'reminders': {
-                                'useDefault': False,
-                                'overrides': [
-                                    {'method': 'popup', 'minutes': 10},
-                                ],
-                            },
-                        }
+            try:
+                if res[i]['locaux']:
+                    event = {
 
-            batch.add(service.events().insert(calendarId=calendarid, body=event))
+                        'summary': res[i]['description'],
+                        'location': res[i]['locaux'],
+                        'description': res[i]['intervenants'][0]['prenom'] + ' ' + res[i]['intervenants'][0]['nom'],
+                        'start': {
+                            'dateTime': res[i]['dateDebut'] + 'T' + res[i]['heureDebut'] + ':00',
+                            'timeZone': 'America/New_York',
+                        },
+                        'end': {
+                            'dateTime': res[i]['dateFin'] + 'T' + res[i]['heureFin'] + ':00',
+                            'timeZone': 'America/New_York',
+                        },
+                        'reminders': {
+                            'useDefault': False,
+                            'overrides': [
+                                {'method': 'popup', 'minutes': 10},
+                            ],
+                        },
+                    }
+                else:
+                    event = {
+                        'summary': res[i]['description'],
+                        'description': res[i]['intervenants'][0]['prenom'] + ' ' + res[i]['intervenants'][0]['nom'],
+                        'start': {
+                            'dateTime': res[i]['dateDebut'] + 'T' + res[i]['heureDebut'] + ':00',
+                            'timeZone': 'America/New_York',
+                        },
+                        'end': {
+                            'dateTime': res[i]['dateFin'] + 'T' + res[i]['heureFin'] + ':00',
+                            'timeZone': 'America/New_York',
+                        },
+                        'reminders': {
+                            'useDefault': False,
+                            'overrides': [
+                                {'method': 'popup', 'minutes': 10},
+                            ],
+                        },
+                    }
+                batch.add(service.events().insert(calendarId=calendarid, body=event))
+            except KeyError as e:
+                if res[i]['locaux']:
+                    event = {
+
+                        'summary': res[i]['description'] + ' Gr:' + res[i]['matieresGroupes'][0]['codeGroupe'],
+                        'description' :res[i]['codeActivite'],
+                        'location': res[i]['locaux'],
+                        'start': {
+                            'dateTime': res[i]['dateDebut'] + 'T' + res[i]['heureDebut'] + ':00',
+                            'timeZone': 'America/New_York',
+                        },
+                        'end': {
+                            'dateTime': res[i]['dateFin'] + 'T' + res[i]['heureFin'] + ':00',
+                            'timeZone': 'America/New_York',
+                        },
+                        'reminders': {
+                            'useDefault': False,
+                            'overrides': [
+                                {'method': 'popup', 'minutes': 10},
+                            ],
+                        },
+                    }
+                else:
+                    event = {
+
+                        'summary': res[i]['description'] + ' Gr:' + res[i]['matieresGroupes'][0]['codeGroupe'],
+                        'description' :res[i]['codeActivite'],
+                        'start': {
+                            'dateTime': res[i]['dateDebut'] + 'T' + res[i]['heureDebut'] + ':00',
+                            'timeZone': 'America/New_York',
+                        },
+                        'end': {
+                            'dateTime': res[i]['dateFin'] + 'T' + res[i]['heureFin'] + ':00',
+                            'timeZone': 'America/New_York',
+                        },
+                        'reminders': {
+                            'useDefault': False,
+                            'overrides': [
+                                {'method': 'popup', 'minutes': 10},
+                            ],
+                        },
+                    }
+                batch.add(service.events().insert(calendarId=calendarid, body=event))
         print("Insertion du calendrier...")
         print("Veuillez patienter, ceci peut prendre quelques minutes")
         print("L'application fermera lorsque l'importation aura fini!")
