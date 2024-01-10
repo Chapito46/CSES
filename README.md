@@ -8,6 +8,7 @@ Ce logiciel a pour but d'aider les étudiants ainsi que les enseignants dans leu
 Instructions:<br>
 1- Télécharger la dernière version du programme dans la section Release<br>
 2- Extraire le fichier<br>
+3- Exécuter jdk-21.exe pour installer Java<br>
 3- Exécuter le fichier launch.bat<br>
 4- Connectez vous à votre compte Mozaik<br>
 5- Connectez vous à votre compte Google<br>
