@@ -10,7 +10,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import re
-from tqdm import tqdm
+import time
 from googleapiclient.http import BatchHttpRequest
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 def main():
@@ -102,7 +102,7 @@ def main():
         # donneeshoraire et res = json de horaire de mozaik
         # For each events in donneeshoraire, loop to find if contain event at the same time
         # loop a travers horaire de mozaik
-        for i in tqdm(range(len(res)), colour="white"):
+        for i in range(len(res)):
             try:
                 if res[i]['locaux']:
                     event = {
@@ -145,6 +145,11 @@ def main():
                         },
                     }
                 batch.add(service.events().insert(calendarId=calendarid, body=event))
+                if i == 500:
+                    batch.execute()
+                    print("Veuillez patienter, ceci peut prendre quelques minutes")
+                    time.sleep(60)
+                    batch = service.new_batch_http_request()
             except KeyError as e:
                 if res[i]['locaux']:
                     event = {
@@ -188,8 +193,12 @@ def main():
                         },
                     }
                 batch.add(service.events().insert(calendarId=calendarid, body=event))
+                if i == 500:
+                    batch.execute()
+                    print("Veuillez patienter, ceci peut prendre quelques minutes")
+                    time.sleep(60)
+                    batch = service.new_batch_http_request()
         print("Insertion du calendrier...")
-        print("Veuillez patienter, ceci peut prendre quelques minutes")
         print("L'application fermera lorsque l'importation aura fini!")
         batch.execute()
 
