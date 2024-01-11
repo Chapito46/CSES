@@ -193,7 +193,7 @@ def main():
                         },
                     }
                 batch.add(service.events().insert(calendarId=calendarid, body=event))
-                if i == 500:
+                if i%500 == 0:
                     batch.execute()
                     print("Veuillez patienter, ceci peut prendre quelques minutes")
                     time.sleep(60)
