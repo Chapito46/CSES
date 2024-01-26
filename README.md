@@ -15,6 +15,8 @@ Instructions:<br>
 6- Suivez les instructions à l'écran<br>
 7- Profitez!<br>
 
+Il y a aussi une vidéo montrant l'utilisation du programme sur YouTube : <https://youtu.be/jWplsnjWNzA>
+
 FAQ:<br>
 1- Est-ce que CSES récolte des informations?<br>
 Non, le programme CSES ne fait qu'utiliser les informations essentiels pour le programme (exemple, les informations des cours). Ces informations sont enregistrés dans les fichiers annexes au programmes et restent sur votre ordinateur. Ainsi, je n'ai pas accès à aucune de vos informations et ceux-ci deviennent obsolète après l'utilisation du logiciel
