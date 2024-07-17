@@ -1,7 +1,7 @@
 
 <h1 align="center">CSES</h1>	
 
-[English version](README.en.md)
+[English version](README.md)
 
 Ce programme a été fait pour mon projet personnel de Secondaire 5.<br>
 Cet application sert à importer votre calendrier du Portail Mozaik dans Google Calendar.<br>
