@@ -1,6 +1,8 @@
 
 <h1 align="center">CSES</h1>	
 
+[English version](README.en.md)
+
 Ce programme a été fait pour mon projet personnel de Secondaire 5.<br>
 Cet application sert à importer votre calendrier du Portail Mozaik dans Google Calendar.<br>
 Ce logiciel a pour but d'aider les étudiants ainsi que les enseignants dans leur gestion du temps tout en leur permettant d'avoir leur calendrier professionnel et personnel à la même place.
