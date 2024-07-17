@@ -1,6 +1,8 @@
 
 <h1 align="center">CSES</h1>	
 
+[French version](README.fr.md)
+
 This program was made during my Secondary 5 (Grade 11) for my personal project at my IB school.<br>
 This application is used to import your calendar from the Mozaik Portal (Web app used by most of public school in Quebec) into Google Calendar.<br>
 This software aims to help students and teachers in their time management while allowing them to have their professional and personal calendar in the same place.
