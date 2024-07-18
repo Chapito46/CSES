@@ -1,29 +1,33 @@
 
 <h1 align="center">CSES</h1>	
 
-Ce programme a été fait pour mon projet personnel de Secondaire 5.<br>
-Cet application sert à importer votre calendrier du Portail Mozaik dans Google Calendar.<br>
-Ce logiciel a pour but d'aider les étudiants ainsi que les enseignants dans leur gestion du temps tout en leur permettant d'avoir leur calendrier professionnel et personnel à la même place.
+[French version](README.fr.md)
+
+This program was made during my Secondary 5 (Grade 11) for my personal project at my IB school.<br>
+This application is used to import your calendar from the Mozaik Portal (Web app used by most of public school in Quebec) into Google Calendar.<br>
+This software aims to help students and teachers in their time management while allowing them to have their professional and personal calendar in the same place.
 
 Instructions:<br>
-1- Télécharger la dernière version du programme dans la section Release<br>
-2- Extraire le fichier<br>
-3- Exécuter jdk-21.exe pour installer Java<br>
-3- Exécuter le fichier launch.bat<br>
-4- Connectez vous à votre compte Mozaik<br>
-5- Connectez vous à votre compte Google<br>
-6- Suivez les instructions à l'écran<br>
-7- Profitez!<br>
+1- Download the latest version of the program in the Release section<br>
+2- Extract the file<br>
+3- Launch jdk-21.exe for installing the correct Java version<br>
+3- Launch the file launch.bat<br>
+4- Sign into your Mozaik account<br>
+5- Sign into your Google account<br>
+6- Follow the steps on the screen<br>
+7- Enjoy!<br>
+
+There is also a video showing me using the program on YouTube: <https://youtu.be/jWplsnjWNzA>
 
 FAQ:<br>
-1- Est-ce que CSES récolte des informations?<br>
-Non, le programme CSES ne fait qu'utiliser les informations essentiels pour le programme (exemple, les informations des cours). Ces informations sont enregistrés dans les fichiers annexes au programmes et restent sur votre ordinateur. Ainsi, je n'ai pas accès à aucune de vos informations et ceux-ci deviennent obsolète après l'utilisation du logiciel
+1- Does CSES collect information?<br>
+No, the CSES program only uses information essential to the program (for example, course information). This information is only saved on your computer during the program execution. So, I do not have access to any of your information and they are erased after the program has finished.
 
-2- Google me dit que l'application n'est pas vérifié, est-ce un virus?<br>
-Non, CSES n'est pas un virus. Google déclenche ce message a toutes applications non vérifiés et CSES n'est actuellement pas vérifé. Cependant, cela n'en fait pas un virus.
+2- Google tells me that the application is not verified, is it a virus?<br>
+No, CSES is not a virus. Google triggers this message to all unverified applications and CSES is currently not verified.
 
-3- Comment je me connecte sur mon compte Google, j'ai de la difficulté avec le message d'avertissement de Google!<br>
-Veuillez suivre les étapes indiqués ci-dessous:
+3- How I log into my Google account, I'm having difficulty with the warning message from Google!<br>
+Please follow the steps given below:
 <table>
   <tr>
     <td valign="top"><img src="https://github.com/Chapito46/MozaikCalendar/assets/65178734/15df4aa4-0300-43f7-bf78-f7512bb9ee34"/></td>
