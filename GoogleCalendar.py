@@ -86,7 +86,7 @@ def main():
         datefin = data['anneeScolaire']['dateFin']
         start_date = datetime.datetime.strptime(datedebut, "%Y-%m-%d").strftime('%Y-%m-%d')
         end_date = datetime.datetime.strptime(datefin, "%Y-%m-%d").strftime('%Y-%m-%d')
-        url = 'https://apiaffairesmp.mozaikportail.ca/api/organisationScolaire/donneesAnnuelles/' + numero_ecole + '/' + numero_eleve + '/activitescalendrier?dateDebut=' + start_date + '&dateFin=' + end_date
+        url = 'https://apiaffaires.mozaikportail.ca/api/organisationScolaire/donneesAnnuelles/' + numero_ecole + '/' + numero_eleve + '/activitescalendrier?dateDebut=' + start_date + '&dateFin=' + end_date
         responsehoraire = requests.get(
                 url,
                 headers=headers,
