@@ -11,11 +11,11 @@ Instructions:<br>
 1- Download the latest version of the program in the Release section<br>
 2- Extract the file<br>
 3- Launch jdk-21.exe for installing the correct Java version<br>
-3- Launch the file launch.bat<br>
-4- Sign into your Mozaik account<br>
-5- Sign into your Google account<br>
-6- Follow the steps on the screen<br>
-7- Enjoy!<br>
+4- Launch the file launch.bat<br>
+5- Sign into your Mozaik account<br>
+6- Sign into your Google account<br>
+7- Follow the steps on the screen<br>
+8- Enjoy!<br>
 
 There is also a video showing me using the program on YouTube: <https://youtu.be/jWplsnjWNzA>
 
