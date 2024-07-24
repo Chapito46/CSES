@@ -21,17 +21,4 @@ Il y a aussi une vidéo montrant l'utilisation du programme sur YouTube : <https
 
 FAQ:<br>
 1- Est-ce que CSES récolte des informations?<br>
-Non, le programme CSES ne fait qu'utiliser les informations essentiels pour le programme (exemple, les informations des cours). Ces informations sont enregistrés dans les fichiers annexes au programmes et restent sur votre ordinateur. Ainsi, je n'ai pas accès à aucune de vos informations et ceux-ci deviennent obsolète après l'utilisation du logiciel
-
-2- Google me dit que l'application n'est pas vérifié, est-ce un virus?<br>
-Non, CSES n'est pas un virus. Google déclenche ce message a toutes applications non vérifiés et CSES n'est actuellement pas vérifé. Cependant, cela n'en fait pas un virus.
-
-3- Comment je me connecte sur mon compte Google, j'ai de la difficulté avec le message d'avertissement de Google!<br>
-Veuillez suivre les étapes indiqués ci-dessous:
-<table>
-  <tr>
-    <td valign="top"><img src="https://github.com/Chapito46/MozaikCalendar/assets/65178734/15df4aa4-0300-43f7-bf78-f7512bb9ee34"/></td>
-    <td valign="top"><img src="https://github.com/Chapito46/MozaikCalendar/assets/65178734/39b0c11b-5bdf-43a4-ac55-1adb25c16ce1"/></td>
-    <td valign="top"><img src="https://github.com/Chapito46/MozaikCalendar/assets/65178734/8a9db706-e957-4479-b982-93852bd60b06"/></td>
-  </tr>
-</table>
+Non, le programme CSES ne fait qu'utiliser les informations essentiels pour le programme (exemple, les informations des cours). Ces informations sont enregistrés dans les fichiers annexes au programmes et restent sur votre ordinateur. Ainsi, je n'ai pas accès à aucune de vos informations et mon application a été vérifié par Google.
